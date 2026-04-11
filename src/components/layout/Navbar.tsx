@@ -44,18 +44,11 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled]         = useState(false);
-  const [mobileOpen, setMobileOpen]     = useState(false);  const [megaOpen, setMegaOpen]         = useState(false);
+  const [mobileOpen, setMobileOpen]     = useState(false);
+  const [megaOpen, setMegaOpen]         = useState(false);
   const [mobileEquip, setMobileEquip]   = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTriggerRef = useRef<HTMLButtonElement>(null);
-
-  /* scroll shadow — kept for potential future use */
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   /* close mega on outside click */
   useEffect(() => {
