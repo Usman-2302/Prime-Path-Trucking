@@ -31,6 +31,14 @@ const TRUST_PILLS = [
 
 const HEADLINE_WORDS = ["We", "Handle", "the", "PAPERWORK.", "You", "Drive."];
 
+// Hero background slides — different truck types, cached via Next.js Image
+const SLIDES = [
+  { src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=75", alt: "Semi truck on highway at night" },
+  { src: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1920&q=75", alt: "Flatbed truck on open road" },
+  { src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=75", alt: "Truck fleet at logistics center" },
+  { src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=75", alt: "Reefer truck on interstate" },
+];
+
 const FEED_ITEMS = [
   { icon: CheckCircle, color: "#10B981", label: "Load Found",      detail: "Chicago \u2192 Dallas \u00b7 Dry Van \u00b7 $3.12/mi",  time: "just now"   },
   { icon: DollarSign,  color: "#F97316", label: "Rate Negotiated", detail: "Posted $2.80 \u2192 Secured $3.45/mi",                  time: "2 min ago"  },
@@ -139,25 +147,57 @@ export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
+  // Auto-advance slider every 5s — runs unconditionally, ignores reducedMotion
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSlideIndex((i) => (i + 1) % SLIDES.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section ref={ref}
-      className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden"
-      style={{ background: "#0A0F1E" }}>
+      className="relative flex flex-col justify-center overflow-hidden"
+      style={{ background: "#0A0F1E", height: "100svh", minHeight: "600px", maxHeight: "1000px" }}>
 
-      {/* Background */}
+      {/* Background slider */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=80"
-          alt="Highway trucking at night"
-          fill priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        <AnimatePresence mode="wait">
+          {SLIDES.map((slide, i) =>
+            i === slideIndex ? (
+              <motion.div
+                key={slide.src}
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: "easeInOut" }}
+              >
+                {/* Ken Burns — slow zoom + drift loop */}
+                <motion.div
+                  className="absolute inset-0"
+                  animate={{ scale: [1, 1.08], x: [0, -12], y: [0, -6] }}
+                  transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+                >
+                  <Image
+                    src={slide.src}
+                    alt={slide.alt}
+                    fill
+                    priority={i === 0}
+                    className="object-cover object-center"
+                    sizes="100vw"
+                  />
+                </motion.div>
+              </motion.div>
+            ) : null
+          )}
+        </AnimatePresence>
         <div className="absolute inset-0" style={{
           background: "linear-gradient(105deg, rgba(10,15,30,0.92) 0%, rgba(10,15,30,0.80) 55%, rgba(10,15,30,0.60) 100%)",
         }} />
@@ -189,8 +229,8 @@ export default function HeroSection() {
       ))}
 
       {/* Content */}
-      <div className="relative z-10 section-container w-full pt-24 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="relative z-10 section-container w-full pt-24 pb-20 overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
           {/* LEFT */}
           <motion.div variants={containerVariants} initial="hidden" animate={isInView ? "show" : "hidden"}>
@@ -269,6 +309,28 @@ export default function HeroSection() {
             <DispatchFeed inView={isInView} />
           </motion.div>
         </div>
+      </div>
+
+      {/* Slider dots */}
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setSlideIndex(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className="transition-all duration-300"
+          >
+            <motion.span
+              className="block rounded-full"
+              animate={{
+                width: i === slideIndex ? 24 : 6,
+                height: 6,
+                background: i === slideIndex ? "#F97316" : "rgba(255,255,255,0.3)",
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          </button>
+        ))}
       </div>
 
       {/* Scroll indicator */}

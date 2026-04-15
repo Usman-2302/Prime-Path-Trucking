@@ -230,7 +230,7 @@ export default function Navbar() {
                       onClick={() => setMegaOpen(false)}
                       className="group flex items-start gap-3 p-3.5 rounded-xl transition-all duration-150 hover:bg-slate-50 border border-transparent hover:border-slate-200"
                     >
-                      <span className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-orange-DEFAULT group-hover:bg-orange-DEFAULT group-hover:text-white group-hover:border-orange-DEFAULT transition-all duration-150">
+                      <span className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-orange-DEFAULT group-hover:bg-orange-DEFAULT group-hover:text-slate-900 group-hover:border-orange-DEFAULT transition-all duration-150">
                         {equipmentIcons[eq.slug]}
                       </span>
                       <div className="min-w-0">

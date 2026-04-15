@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, CheckCircle, Truck, FileText, Phone } from "lucide-react";
+import { ArrowRight, ArrowLeft, Truck, FileText, Phone, CheckCircle } from "lucide-react";
 import { EQUIPMENT_TYPES } from "@/lib/constants";
 
 type FormData = {
@@ -81,10 +82,11 @@ function RadioGroup({ options, value, onChange, name }: {
 }
 
 export default function LeadForm() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
   const [data, setData] = useState<FormData>(INITIAL);
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const set = (field: keyof FormData) => (val: string) =>
@@ -125,43 +127,12 @@ export default function LeadForm() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep()) return;
-    setSubmitted(true);
+    setLoading(true);
+    // Small delay for UX — shows loading state before redirect
+    setTimeout(() => router.push("/thank-you"), 600);
   };
 
   const progress = ((step) / (STEPS.length - 1)) * 100;
-
-  if (submitted) {
-    return (
-      <motion.div
-        className="flex flex-col items-center justify-center text-center py-16 px-6"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 18 }}
-      >
-        <motion.div
-          className="flex items-center justify-center w-20 h-20 rounded-full mb-6"
-          style={{ background: "rgba(16,185,129,0.1)", border: "2px solid rgba(16,185,129,0.3)" }}
-          animate={{ boxShadow: ["0 0 0px rgba(16,185,129,0)", "0 0 32px rgba(16,185,129,0.4)", "0 0 0px rgba(16,185,129,0)"] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <CheckCircle size={36} className="text-green-500" />
-        </motion.div>
-        <h3 className="text-2xl font-bold text-slate-800 mb-3">You&apos;re All Set!</h3>
-        <p className="text-slate-500 text-base leading-relaxed max-w-sm">
-          We&apos;ll reach out within 1 hour. Your dispatcher will start finding loads
-          within 24–48 hours of receiving your documents.
-        </p>
-        <motion.div
-          className="mt-6 px-4 py-2 rounded-full text-sm font-semibold"
-          style={{ background: "rgba(249,115,22,0.1)", color: "#EA580C", border: "1px solid rgba(249,115,22,0.2)" }}
-          animate={{ scale: [1, 1.04, 1] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Check your email for next steps
-        </motion.div>
-      </motion.div>
-    );
-  }
 
   return (
     <div className="w-full">
@@ -369,8 +340,21 @@ export default function LeadForm() {
           ) : (
             <motion.button type="submit"
               className="btn-primary px-7 py-3"
-              whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }}>
-              Submit — Get Started <ArrowRight size={16} />
+              disabled={loading}
+              whileHover={loading ? {} : { scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}>
+              {loading ? (
+                <>
+                  <motion.span
+                    className="w-4 h-4 rounded-full border-2 border-white border-t-transparent"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.7, repeat: Infinity, ease: "linear" }}
+                  />
+                  Submitting...
+                </>
+              ) : (
+                <>Submit — Get Started <ArrowRight size={16} /></>
+              )}
             </motion.button>
           )}
         </div>
