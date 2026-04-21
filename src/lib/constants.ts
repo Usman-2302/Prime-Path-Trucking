@@ -1,11 +1,11 @@
 export const SITE = {
   name: "Prime Path Trucking",
   tagline: "We Handle the Paperwork. You Drive.",
-  phone: "+1-800-000-0000", // TODO: replace with real toll-free number
-  phoneDisplay: "1-800-000-0000",
-  whatsapp: "https://wa.me/10000000000", // TODO: replace with real WhatsApp Business number
-  email: "dispatch@primepathtucking.com", // TODO: confirm email
-  address: "", // TODO: client to provide US company address
+  phone: "+16469219612",
+  phoneDisplay: "+1 (646) 921-9612",
+  whatsapp: "https://wa.me/923143433869",
+  email: "primepathtrucking.ppt@gmail.com",
+  address: "",
   url: "https://primepathtucking.com",
 } as const;
 

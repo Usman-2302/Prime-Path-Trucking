@@ -5,6 +5,7 @@ import ServicesDetailList  from "@/components/services/ServicesDetailList";
 import ServicesMidCTA      from "@/components/services/ServicesMidCTA";
 import ServicesAllIncluded from "@/components/services/ServicesAllIncluded";
 import FinalCTA            from "@/components/home/FinalCTA";
+import ServiceSchema       from "@/components/seo/ServiceSchema";
 
 export const metadata: Metadata = {
   title: "Truck Dispatching Services | Prime Path Trucking",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
+      <ServiceSchema />
       <ServicesHero />
       <ServicesValueBar />
       <ServicesDetailList />

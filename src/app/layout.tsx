@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/layout/FloatingButtons";
+import SchemaOrg from "@/components/seo/SchemaOrg";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,6 +64,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <SchemaOrg />
+      </head>
       <body className="min-h-screen overflow-x-hidden flex flex-col">
         <Navbar />
         <main className="flex-1 pt-16 md:pt-18">

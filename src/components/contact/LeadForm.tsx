@@ -21,6 +21,7 @@ type FormData = {
   hearAbout: string;
 };
 
+
 const INITIAL: FormData = {
   fullName: "", companyName: "", equipmentType: "", numTrucks: "",
   mcAge: "", mcNumber: "", usingDispatcher: "", frustration: "",
@@ -124,12 +125,20 @@ export default function LeadForm() {
     setErrors({});
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep()) return;
     setLoading(true);
-    // Small delay for UX — shows loading state before redirect
-    setTimeout(() => router.push("/thank-you"), 600);
+    try {
+      await fetch("/api/submit-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch {
+      // Silent fail — don't block redirect
+    }
+    router.push("/thank-you");
   };
 
   const progress = ((step) / (STEPS.length - 1)) * 100;
