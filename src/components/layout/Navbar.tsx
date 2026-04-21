@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Phone,
@@ -97,20 +98,17 @@ export default function Navbar() {
             {/* ── Logo ── */}
             <Link
               href="/"
-              className="flex items-center gap-2.5 min-h-0 group"
+              className="flex items-center min-h-0"
               aria-label="Prime Path Trucking — Home"
             >
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-orange-gradient shadow-orange-sm flex-shrink-0">
-                <Truck size={18} className="text-white" />
-              </div>
-              <div className="leading-none">
-                <span className="block text-sm font-extrabold tracking-tight text-slate-900 transition-colors duration-150 group-hover:text-orange-DEFAULT">
-                  PRIME PATH
-                </span>
-                <span className="block text-[10px] font-semibold tracking-[0.15em] uppercase text-slate-400">
-                  Trucking
-                </span>
-              </div>
+              <Image
+                src="/logoa.png"
+                alt="Prime Path Trucking"
+                width={140}
+                height={48}
+                className="object-contain h-10 w-auto"
+                priority
+              />
             </Link>
 
             {/* ── Desktop Nav ── */}
@@ -283,11 +281,8 @@ export default function Navbar() {
         >
           {/* Drawer header */}
           <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100">
-            <Link href="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-gradient">
-                <Truck size={15} className="text-white" />
-              </div>
-              <span className="text-sm font-extrabold tracking-tight text-slate-900">PRIME PATH</span>
+            <Link href="/" className="flex items-center" onClick={() => setMobileOpen(false)}>
+              <Image src="/logoa.png" alt="Prime Path Trucking" width={120} height={40} className="object-contain h-9 w-auto" />
             </Link>
             <button
               onClick={() => setMobileOpen(false)}

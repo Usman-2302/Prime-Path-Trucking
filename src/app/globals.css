@@ -380,6 +380,12 @@
   /* Alt section background */
   .bg-section-alt { background-color: #F1F5F9; }
 
+  /* Marquee */
+  .animate-marquee {
+    animation: marquee-scroll 20s linear infinite;
+  }
+  .animate-marquee:hover { animation-play-state: paused; }
+
   /* Dark section (hero, footer, CTA) */
   .bg-section-dark { background-color: #0A0F1E; }
 
@@ -390,9 +396,9 @@
 }
 
 /* ─── Keyframes ──────────────────────────────────────────────────────────── */
-@keyframes marquee {
+@keyframes marquee-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  100% { transform: translateX(-33.333%); }
 }
 @keyframes shimmer {
   0%   { background-position: -200% 0; }

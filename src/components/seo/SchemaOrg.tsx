@@ -18,6 +18,8 @@ export default function SchemaOrg() {
         logo: {
           "@type": "ImageObject",
           url: "https://primepathtucking.com/logo.png",
+          width: 200,
+          height: 200,
         },
         image: "https://primepathtucking.com/logo.png",
         priceRange: "4%–10% of gross load revenue",

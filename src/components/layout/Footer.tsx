@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Phone,
   Mail,
@@ -107,9 +108,13 @@ export default function Footer() {
             <div className="lg:col-span-3">
               {/* Logo */}
               <Link href="/" className="inline-flex items-center gap-2.5 min-h-0 group mb-5">
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-orange-gradient shadow-orange-sm flex-shrink-0">
-                  <Truck size={20} className="text-white" />
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="Prime Path Trucking"
+                  width={44}
+                  height={44}
+                  className="flex-shrink-0 object-contain"
+                />
                 <div className="leading-none">
                   <span className="block text-base font-extrabold tracking-tight text-white">
                     PRIME PATH

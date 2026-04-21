@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   },
   description:
     "Prime Path Trucking offers 24/7 dedicated truck dispatching for owner-operators and fleets across the USA. Higher RPM, no forced dispatch, no sign-up fees.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   keywords: [
     "truck dispatcher USA",
     "owner operator dispatching service",
